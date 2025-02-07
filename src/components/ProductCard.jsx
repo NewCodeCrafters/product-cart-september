@@ -8,9 +8,13 @@ const ProductCard = (props) => {
   console.log(cartProduct);
   return (
     <article>
-      <figure>
+      <figure
+        className={
+          cartProduct ? "border-2 border-red rounded-xl overflow-hidden" : ""
+        }
+      >
         <img
-          className=" w-full rounded-xl aspect-square"
+          className=" w-full  aspect-square"
           src={props.image.desktop}
           alt=""
         />
