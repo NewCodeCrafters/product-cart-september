@@ -3,9 +3,10 @@ import { CartCtx } from "../context/cart-context";
 
 /* eslint-disable react/prop-types */
 const ProductCard = (props) => {
-  const { getProduct, addToCart } = useContext(CartCtx);
+  const { getProduct, addToCart, increaseQuantity, decreaseQuantity } =
+    useContext(CartCtx);
   const cartProduct = getProduct(props.id);
-  console.log(cartProduct);
+
   return (
     <article>
       <figure
@@ -20,7 +21,21 @@ const ProductCard = (props) => {
         />
       </figure>
       {cartProduct ? (
-        <div></div>
+        <div className="max-w-44  px-4 gap-2 text-rose-500 font-semibold py-2 w-full font-red-hat bg-red rounded-full flex items-center   mx-auto -mt-5 relative z-50 justify-between">
+          <button
+            className="w-4 h-4 grid place-items-center border-rose-100 border rounded-full"
+            onClick={() => decreaseQuantity(props.id)}
+          >
+            <img src="/images/icon-decrement-quantity.svg" alt="" />
+          </button>
+          <span className="font-bold text-rose-50">{cartProduct.quantity}</span>
+          <button
+            className="w-4 h-4 grid place-items-center border-rose-100 border rounded-full"
+            onClick={() => increaseQuantity(props.id)}
+          >
+            <img src="/images/icon-increment-quantity.svg" alt="" />
+          </button>
+        </div>
       ) : (
         <button
           onClick={() => addToCart(props)}

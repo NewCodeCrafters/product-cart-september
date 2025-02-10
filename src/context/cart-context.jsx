@@ -12,6 +12,9 @@ export const CartCtx = createContext({
   ],
   addToCart: () => {},
   getProduct: () => {},
+  increaseQuantity: () => {},
+  decreaseQuantity: () => {},
+  deleteFromCart: () => {},
 });
 
 export const CartProvider = ({ children }) => {
@@ -29,12 +32,38 @@ export const CartProvider = ({ children }) => {
     const product = items.find((product) => product.id === id);
     return product;
   };
+  const increaseQuantity = (id) => {
+    const updatedProduct = [...items];
+    const product = updatedProduct.find((product) => product.id === id);
+    if (!product) return;
+    product.quantity += 1;
+    // product.quantity = product.quantity+1
+    setItem(updatedProduct);
+  };
+  const deleteFromCart = (id) => {
+    setItem((prev) => prev.filter((product) => product.id !== id));
+  };
+  const decreaseQuantity = (id) => {
+    const updatedProduct = [...items];
+    const product = updatedProduct.find((product) => product.id === id);
+    if (!product) return;
+    if (product.quantity === 1) {
+      deleteFromCart(id);
+      return;
+    }
+    product.quantity -= 1;
+    // product.quantity = product.quantity+1
+    setItem(updatedProduct);
+  };
   return (
     <CartCtx.Provider
       value={{
         items,
         addToCart,
         getProduct,
+        increaseQuantity,
+        decreaseQuantity,
+        deleteFromCart,
       }}
     >
       {children}
